@@ -8,8 +8,14 @@ import { useState } from "react";
 
 function App() {
     const music = new Audio(soundgot);
-    //music.loop = true;
+    function playSong() {
+        if (!status) {
+            music.play();
+            setStatus(true);
+        }
+    }
     const [name, setName] = useState({ nombre: "", sentence: "", slug: "" });
+    const [status, setStatus] = useState(false);
 
     function getSentence() {
         fetch("https://api.gameofthronesquotes.xyz/v1/random")
@@ -20,13 +26,12 @@ function App() {
                     sentence: data.sentence,
                     slug: data.character.slug,
                 });
-                //console.log(data.sentence, data.character.name);
             });
-        music.play();
+        playSong();
     }
     return (
         <main
-            className="bg-cover h-screen grid grid-rows-layout justify-items-center items-start border"
+            className="bg-cover h-screen grid grid-rows-layout justify-items-center items-start"
             style={{ backgroundImage: `url(${bg})` }}
         >
             <Title />
